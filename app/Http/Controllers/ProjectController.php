@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
+use App\Http\Requests\ShowProjectRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Models\Project;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth');
     }
 
     /**
@@ -23,7 +27,11 @@ class ProjectController extends Controller
      */
     public function index(): View
     {
-        $projects = Project::all();
+        $projects = Auth::user()->projects;
+
+        if (Gate::allows('view-all-projects')) {
+            $projects = Project::all();
+        }
 
         return view('projects.index', compact('projects'));
     }
@@ -46,7 +54,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
-        Project::create($request->validated());
+        Auth::user()->projects()->create($request->validated());
 
         return redirect()->route('projects.index');
     }
@@ -56,7 +64,7 @@ class ProjectController extends Controller
      *
      * @return View
      */
-    public function show(Project $project): View
+    public function show(ShowProjectRequest $request, Project $project): View
     {
         return view('projects.show', [
             'project' => $project

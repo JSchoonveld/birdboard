@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    @extends('components.structure.navbar')
     <h1>{{ $project->title }}</h1>
 
     <p>

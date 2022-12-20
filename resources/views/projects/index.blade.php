@@ -1,11 +1,17 @@
 @extends('layouts.default')
 
-@section('title')
-    Projects
+@section('title', 'Page Title')
+
+@section('sidebar')
+    @parent
+
+    <p>This is appended to the master sidebar.</p>
 @endsection
 
 @section('content')
-    <h1>Birdboard</h1>
+    @extends('components.structure.navbar')
+
+    <h1 class="text-4xl mb-4">Birdboard</h1>
 
     <ul>
         @forelse ($projects as $project)

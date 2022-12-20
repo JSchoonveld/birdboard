@@ -1,13 +1,12 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title')| Birdboard</title>
+    <title>App Name - @yield('title')</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+<div class="container max-w-screen-xl mx-auto p-5 min-h-screen">
     @yield('content')
+</div>
+@extends('components.structure.footer')
 </body>
 </html>
