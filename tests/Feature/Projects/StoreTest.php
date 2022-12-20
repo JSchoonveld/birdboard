@@ -3,28 +3,31 @@
 namespace Tests\Feature\Projects;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+    }
+
     /** @test */
     public function a_user_can_create_a_project()
     {
-        $user = User::factory()->create();
-        Auth::login($user);
-
         $attributes = [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'owner_id' => $user->id,
+            'owner_id' => $this->user->id,
         ];
 
-        $this->post(route('projects.store'), $attributes)
+        $this->actingAs($this->user)->post(route('projects.store'), $attributes)
             ->assertRedirectToRoute('projects.index');
 
         $this->assertDatabaseHas('projects', $attributes);
@@ -35,15 +38,12 @@ class StoreTest extends TestCase
     /** @test */
     public function a_project_requires_a_title_and_description()
     {
-        $user = User::factory()->create();
-        Auth::login($user);
-
         $attributes = [
             'title' => null,
             'description' => null,
         ];
 
-        $this->post(route('projects.store'), $attributes)
+        $this->actingAs($this->user)->post(route('projects.store'), $attributes)
             ->assertSessionHasErrors(['title', 'description']);
 
         $this->assertDatabaseMissing('projects', $attributes);
@@ -52,22 +52,19 @@ class StoreTest extends TestCase
     /** @test */
     public function a_project_requires_a_title_and_description_with_the_correct_length()
     {
-        $user = User::factory()->create();
-        Auth::login($user);
-
         $attributes = [
             'title' => 'title',
             'description' => 'short',
         ];
 
-        $this->post(route('projects.store'), $attributes)
+        $this->actingAs($this->user)->post(route('projects.store'), $attributes)
             ->assertSessionHasErrors(['title', 'description']);
 
         $this->assertDatabaseMissing('projects', $attributes);
     }
 
     /** @test */
-    public function a_user_must_be_logged_in_to_store_post()
+    public function guests_cannot_create_projects()
     {
         $user = User::factory()->create();
 
@@ -81,5 +78,13 @@ class StoreTest extends TestCase
             ->assertRedirect(route('login'));
 
         $this->assertDatabaseMissing('projects', $attributes);
+    }
+
+    /** @test */
+    public function a_user_has_projects()
+    {
+        $user = User::factory()->create();
+
+        $this->assertInstanceOf(Collection::class, $user->projects);
     }
 }
