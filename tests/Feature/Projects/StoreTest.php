@@ -87,4 +87,12 @@ class StoreTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $user->projects);
     }
+
+    /** @test */
+    public function an_authenticated_user_can_view_create_page()
+    {
+        $this->actingAs($this->user)->get(route('projects.create'))
+            ->assertStatus(200)
+            ->assertSee('Create a new project');
+    }
 }
