@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>App Name - @yield('title')</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
 </head>
 <body>
 <div class="container max-w-screen-xl mx-auto p-5 min-h-screen">

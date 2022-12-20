@@ -16,7 +16,6 @@ class StoreProjectRequest extends FormRequest
         return [
             'title' => 'required|min:8',
             'description' => 'required|min:8',
-            'owner_id' => 'required'
         ];
     }
 }
