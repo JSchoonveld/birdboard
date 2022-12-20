@@ -13,6 +13,8 @@ php artisan key:generate
 php artisan migrate --seed
 
 php artisan serve
+
+npm run install && npm run dev
 ```
 
 ## Sail
@@ -31,4 +33,6 @@ sail up -d
 sail artisan key:generate
 
 sail artisan migrate --seed
+
+npm run install && npm run dev
 ```
