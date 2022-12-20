@@ -28,7 +28,7 @@ class ShowTest extends TestCase
     }
 
     /** @test */
-    public function guests_cannot_view_single_projects()
+    public function unauthenticated_users_cannot_view_single_projects()
     {
         $user = User::factory()->create();
 

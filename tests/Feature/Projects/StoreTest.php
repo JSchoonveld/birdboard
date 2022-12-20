@@ -2,6 +2,8 @@
 
 namespace Tests\Feature\Projects;
 
+use App\Enums\Role;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -86,5 +88,26 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertInstanceOf(Collection::class, $user->projects);
+    }
+
+    /** @test */
+    public function guests_cannot_create_more_than_five_projects()
+    {
+        $user = User::factory()->create([
+            'role' => Role::guest(),
+        ]);
+
+        Project::factory()->count(5)->create([
+            'owner_id' => $user->id
+        ]);
+
+        $attributes = [
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'owner_id' => $user->id,
+        ];
+
+        $this->actingAs($user)->post(route('projects.store'), $attributes)
+            ->assertStatus(401);
     }
 }

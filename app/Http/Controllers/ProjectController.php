@@ -52,8 +52,12 @@ class ProjectController extends Controller
      * @param StoreProjectRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreProjectRequest $request): RedirectResponse
+    public function store(StoreProjectRequest $request)
     {
+        if (Auth::user()->role == Role::guest() && count(Auth::user()->projects) == 5) {
+            return response('Already at 5 projects', 401);
+        }
+
         Auth::user()->projects()->create($request->validated());
 
         return redirect()->route('projects.index');
