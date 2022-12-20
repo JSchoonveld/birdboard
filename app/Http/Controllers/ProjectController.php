@@ -11,6 +11,11 @@ use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -41,9 +46,9 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request): RedirectResponse
     {
-        $project = Project::create($request->validated());
+        Project::create($request->validated());
 
-        return redirect(route('projects.index'));
+        return redirect()->route('projects.index');
     }
 
     /**

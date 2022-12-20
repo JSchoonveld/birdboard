@@ -24,10 +24,11 @@ composer install
 cp .env.example .env
 ```
 - Create database and fill in details
+- change DB_HOST to mysql
 ```bash
+sail up -d
+
 sail artisan key:generate
 
 sail artisan migrate --seed
-
-sail up -d
 ```
