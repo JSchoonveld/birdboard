@@ -4,8 +4,8 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a class="text-4xl logo" href="{{ route('dashboard') }}">
+                <div class="shrink-0 flex items-center ml-3">
+                    <a class="text-4xl logo px-3" href="{{ route('dashboard') }}">
                         Birdboard
                     </a>
                 </div>
@@ -15,14 +15,11 @@
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                         {{ __('Projects') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('projects.create')" :active="request()->routeIs('projects.create')">
-                        {{ __('New post') }}
-                    </x-nav-link>
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6 mr-3">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
