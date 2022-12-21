@@ -21,6 +21,8 @@ class StoreTest extends TestCase
     /** @test */
     public function a_user_can_create_a_project()
     {
+        $this->actingAs($this->user)->get(route('projects.create'))->assertStatus(200);
+
         $attributes = [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
@@ -64,9 +66,11 @@ class StoreTest extends TestCase
     }
 
     /** @test */
-    public function guests_cannot_create_projects()
+    public function unauthenticated_users_cannot_create_projects()
     {
         $user = User::factory()->create();
+
+        $this->get(route('projects.create'))->assertStatus(302);
 
         $attributes = [
             'title' => $this->faker->sentence,
@@ -86,13 +90,5 @@ class StoreTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertInstanceOf(Collection::class, $user->projects);
-    }
-
-    /** @test */
-    public function an_authenticated_user_can_view_create_page()
-    {
-        $this->actingAs($this->user)->get(route('projects.create'))
-            ->assertStatus(200)
-            ->assertSee('Create a new project');
     }
 }
