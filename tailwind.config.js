@@ -18,6 +18,12 @@ module.exports = {
             },
             boxShadow: {
                 default: '0 2px 4px 0 rgba(0,0,0,0.10)',
+            },
+            colors: {
+                'main-red': '#9e1010',
+                'main-blue': '#0B032D',
+                'main-light': '#FFB997',
+                'secondary-blue': '#0A2463',
             }
         },
     },
