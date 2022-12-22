@@ -24,7 +24,10 @@ module.exports = {
                 'main-blue': '#0B032D',
                 'main-light': '#FFB997',
                 'secondary-blue': '#0A2463',
-            }
+            },
+            backgroundImage: {
+                'welcome-lg': "url('/public/images/header.webp')",
+            },
         },
     },
 
