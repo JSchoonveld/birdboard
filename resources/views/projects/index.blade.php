@@ -12,7 +12,7 @@
             <a href="{{ route('projects.show', $project->id) }}" class="md:w-1/3 hover:scale-105 transition-all">
                 @if(Auth::user()->role != 1)
                 <div class="bg-white rounded shadow p-5 my-3 mx-3 flex flex-col justify-between relative" style="height: 200px">
-                    <div class="absolute card-color-segment"></div>
+                    <div class="absolute card-color-segment top-4 left-0 w-2 h-16 bg-main-light"></div>
                     <div class="h-1/2">
                         <h3 class="text-xl">
                             {{ $project->title }}
